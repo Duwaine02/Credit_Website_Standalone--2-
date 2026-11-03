@@ -1,0 +1,122 @@
+KISASA GOOGLE SHEETS LEAD CONNECTION
+=====================================
+
+FILES
+-----
+1. Code.gs
+   Google Apps Script that writes leads into your Google Sheet.
+
+2. removal-assessment.html
+   Updated assessment page. It sends completed assessments to Google Sheets.
+
+GOOGLE SHEET
+------------
+Spreadsheet ID:
+1akkPRjddyXz-p3wI8-F9wXTLZqFRHPHUP09jWA7cYG0
+
+Tab:
+Leads
+
+EXACT COLUMN ORDER
+------------------
+A  Timestamp
+B  Full Name
+C  Email
+D  Phone
+E  Pipeline Stage
+F  Qualified
+G  UTM Source
+H  UTM Medium
+I  UTM Campaign
+J  UTM Content
+K  Landing Page
+L  Lead ID
+M  Answers
+N  Lead Grade
+
+GOOGLE APPS SCRIPT SETUP
+------------------------
+1. Open your Google Sheet.
+2. Click Extensions.
+3. Click Apps Script.
+4. Delete the existing Code.gs contents.
+5. Paste the contents of Code.gs from this package.
+6. Click Save.
+7. Click Deploy → New deployment.
+8. Select type: Web app.
+9. Execute as: Me.
+10. Who has access: Anyone.
+11. Click Deploy.
+12. Authorize the script if Google asks.
+13. Copy the Web app URL ending in /exec.
+
+CONNECT THE WEBSITE
+-------------------
+Open removal-assessment.html.
+
+Find:
+
+const GOOGLE_SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_EXEC_URL_HERE";
+
+Replace the placeholder with the /exec URL you copied.
+
+Example:
+
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/XXXXXXXXXXXX/exec";
+
+SAVE THE HTML.
+
+IMPORTANT
+---------
+Do NOT paste the normal Google Sheet URL into GOOGLE_SCRIPT_URL.
+
+The website needs the Google Apps Script Web App /exec URL.
+
+TEST
+----
+Use a test name, email and phone number on the assessment.
+
+After submitting, open the Leads tab.
+
+A new row should appear with exactly 14 populated columns.
+
+UTM TEST
+--------
+You can test tracking by opening the page with:
+
+?utm_source=facebook&utm_medium=paid&utm_campaign=debt-removal&utm_content=ad-01
+
+The sheet should receive:
+
+UTM Source   = facebook
+UTM Medium   = paid
+UTM Campaign = debt-removal
+UTM Content  = ad-01
+
+QUALIFIED / LEAD GRADE
+----------------------
+The current setup deliberately uses:
+
+Pipeline Stage = New Lead
+Qualified = Review
+Lead Grade = Unassigned
+
+This is because the supplied HTML does not contain a legally defined qualification
+algorithm. Once you provide the rules you want to use, those fields can be
+calculated automatically from the six answers.
+
+ANSWERS
+-------
+All six answers are kept inside column M (Answers) as one clean cell.
+
+Example:
+
+Q1: WHY DO YOU WANT TO BE REMOVED FROM DEBT REVIEW? = I have paid all my debt |
+Q2: HAVE YOU PAID ALL THE ACCOUNTS THAT WERE INCLUDED IN YOUR DEBT REVIEW? = Yes |
+Q3: DO YOU HAVE A HOME LOAN IN YOUR DEBT REVIEW? = No |
+Q4: ARE YOU CURRENTLY EMPLOYED OR EARNING A REGULAR INCOME? = Full-time |
+Q5: IS THERE A DEBT REVIEW COURT ORDER OR NCT MATTER ALREADY IN PLACE AGAINST YOU? = No |
+Q6: WHICH OF THESE BEST DESCRIBES WHERE YOU ARE RIGHT NOW? = I can now afford my repayments on my own
+
+This prevents the answers from spilling into additional Google Sheet columns.
